@@ -17,19 +17,43 @@ namespace CarShop.Infrastructure.Data.Configuration
                 new Category()
                 {
                     Id = 1,
-                    Name = "Cottage"
+                    Name = "Hatchback"
                 },
 
                 new Category()
                 {
                     Id = 2,
-                    Name = "Single-Family"
+                    Name = "Estate"
                 },
 
                 new Category()
                 {
                     Id = 3,
-                    Name = "Duplex"
+                    Name = "SUV"
+                },
+
+                new Category()
+                {
+                    Id = 4,
+                    Name = "Saloon"
+                },
+
+                new Category()
+                {
+                    Id = 5,
+                    Name = "Coupe"
+                },
+
+                new Category()
+                {
+                    Id = 6,
+                    Name = "Convertible"
+                },
+
+                new Category()
+                {
+                    Id = 7,
+                    Name = "Pickup"
                 }
 
              };

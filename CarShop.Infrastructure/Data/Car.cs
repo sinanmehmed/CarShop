@@ -39,7 +39,23 @@ namespace CarShop.Infrastructure.Data
         public int Year { get; set; }
 
         [Required]
-        public Engine Engine { get; set; }
+        [StringLength(50)]
+        public string EngineId { get; set; } = null!;
+
+        [Required]
+        [Display(Name = "Cubic cm")]
+        [Range(0, 10000)]
+        public int EngineSize { get; set; }
+
+        [Required]
+        [Range(0, 1500)]
+        public int HorsePower { get; set; }
+
+        [Required]
+        public FuelType FuelType { get; set; }
+
+        [Required]
+        public TransmissionType TransmissionType { get; set; }
 
         [Required]
         [StringLength(200)]
