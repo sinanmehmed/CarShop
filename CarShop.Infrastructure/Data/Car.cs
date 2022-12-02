@@ -25,6 +25,10 @@ namespace CarShop.Infrastructure.Data
         public string Model { get; set; } = null!;
 
         [Required]
+        [StringLength(50)]
+        public string Colour { get; set; } = null!;
+
+        [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
@@ -75,7 +79,7 @@ namespace CarShop.Infrastructure.Data
         public string? BuyerId { get; set; }
 
         [ForeignKey(nameof(BuyerId))]
-        public IdentityUser? Buyer { get; set; }
+        public ApplicationUser? Buyer { get; set; }
 
         public bool IsActive { get; set; } = true;
     }
