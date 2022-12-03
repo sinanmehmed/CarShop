@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShop", "CarShop\CarShop.csproj", "{6871F213-A876-432D-9BED-CA99D0F03BBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShop", "CarShop\CarShop.csproj", "{6871F213-A876-432D-9BED-CA99D0F03BBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShop.Infrastructure", "CarShop.Infrastructure\CarShop.Infrastructure.csproj", "{E9DD3E7B-9DD1-45DF-B265-365A37688444}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShop.Infrastructure", "CarShop.Infrastructure\CarShop.Infrastructure.csproj", "{E9DD3E7B-9DD1-45DF-B265-365A37688444}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShop.Core", "CarShop.Core\CarShop.Core.csproj", "{E35273C6-F0B3-41C6-B9C8-23995A381593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarShop.Core", "CarShop.Core\CarShop.Core.csproj", "{E35273C6-F0B3-41C6-B9C8-23995A381593}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

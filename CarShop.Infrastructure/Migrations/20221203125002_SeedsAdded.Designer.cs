@@ -4,6 +4,7 @@ using CarShop.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarShop.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221203125002_SeedsAdded")]
+    partial class SeedsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,11 +45,6 @@ namespace CarShop.Infrastructure.Migrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
@@ -102,14 +99,13 @@ namespace CarShop.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0f26eab-5fb0-40bd-95f9-527671d62bd5",
+                            ConcurrencyStamp = "e4f85ffd-6321-41ff-9c8b-55669c394635",
                             Email = "dealer@mail.com",
                             EmailConfirmed = false,
-                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "dealer@mail.com",
                             NormalizedUserName = "dealer@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFKcnVzMMRgTU1XMIDYNR4w99f/DgIxdHY93kfr1vWTnR+CkXZfcsgPIjtjZ6pry0g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAnqJ90nNzpXhzVgAP+Wm38kQZH1kPdiTPnZ3Qg20e9mrmxfUoGTwp+TrVgkLJ5fig==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "dealer@mail.com"
@@ -118,14 +114,13 @@ namespace CarShop.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "60f33a53-14dc-4ab1-b03f-751b817c7087",
+                            ConcurrencyStamp = "19dcb041-e57a-43cb-8410-a36bdc30cfa9",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
-                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB7mxUDU8mFcwaUfe3Q3nZ6PevGLj3mxIxlmCZ/7qxEa5DBvN0bUAIBMgiWBVlUOqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED9VhnkarcsZ8ApunxZssIW4gt4iDeBLLgvaEcwMvpLZhzhLRHIJwjPg+XiDgtSQNg==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
