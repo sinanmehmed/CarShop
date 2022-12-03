@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CarShop.Infrastructure.Data.Configuration
 {
-    public class MechanicConfiuration : IEntityTypeConfiguration<Mechanic>
+    public class MechanicConfiguration : IEntityTypeConfiguration<Mechanic>
     {
         public void Configure(EntityTypeBuilder<Mechanic> builder)
         {
