@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarShop.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221203130501_SeedsAdded")]
+    [Migration("20221215230758_SeedsAdded")]
     partial class SeedsAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,114 +24,30 @@ namespace CarShop.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CarShop.Infrastructure.Data.ApplicationUser", b =>
+            modelBuilder.Entity("CarShop.Infrastructure.Data.Booking", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.Property<int>("DealerId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
+                    b.HasIndex("CarId");
 
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                    b.HasIndex("DealerId");
 
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0f26eab-5fb0-40bd-95f9-527671d62bd5",
-                            Email = "dealer@mail.com",
-                            EmailConfirmed = false,
-                            IsActive = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "dealer@mail.com",
-                            NormalizedUserName = "dealer@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFKcnVzMMRgTU1XMIDYNR4w99f/DgIxdHY93kfr1vWTnR+CkXZfcsgPIjtjZ6pry0g==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "dealer@mail.com"
-                        },
-                        new
-                        {
-                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "60f33a53-14dc-4ab1-b03f-751b817c7087",
-                            Email = "guest@mail.com",
-                            EmailConfirmed = false,
-                            IsActive = true,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "guest@mail.com",
-                            NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB7mxUDU8mFcwaUfe3Q3nZ6PevGLj3mxIxlmCZ/7qxEa5DBvN0bUAIBMgiWBVlUOqg==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "guest@mail.com"
-                        });
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("CarShop.Infrastructure.Data.Car", b =>
@@ -156,6 +72,11 @@ namespace CarShop.Infrastructure.Migrations
                     b.Property<int>("DealerId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
                     b.Property<string>("EngineId")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -164,7 +85,7 @@ namespace CarShop.Infrastructure.Migrations
                     b.Property<int>("EngineSize")
                         .HasColumnType("int");
 
-                    b.Property<int>("FuelType")
+                    b.Property<int>("FuelId")
                         .HasColumnType("int");
 
                     b.Property<int>("HorsePower")
@@ -174,9 +95,6 @@ namespace CarShop.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Make")
                         .IsRequired()
@@ -197,7 +115,7 @@ namespace CarShop.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("TransmissionType")
+                    b.Property<int>("TransmissionId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -211,6 +129,10 @@ namespace CarShop.Infrastructure.Migrations
 
                     b.HasIndex("DealerId");
 
+                    b.HasIndex("FuelId");
+
+                    b.HasIndex("TransmissionId");
+
                     b.ToTable("Cars");
 
                     b.HasData(
@@ -221,17 +143,17 @@ namespace CarShop.Infrastructure.Migrations
                             CategoryId = 4,
                             Colour = "Silver",
                             DealerId = 1,
+                            Description = "The car is in perfect condition!",
                             EngineId = "MBWWXXVV8777",
                             EngineSize = 2200,
-                            FuelType = 1,
+                            FuelId = 2,
                             HorsePower = 231,
                             ImageUrl = "https://www.gcs-germancarspecialist.co.uk/photos/10790/22713893-471d-41d8-b47a-9069e1d15840_i800x600.jpg",
-                            IsActive = true,
                             Make = "Mercedes-Benz",
                             Model = "E220 AMG Sport",
                             Price = 24000.00m,
                             RegNumber = "EF14XAE",
-                            TransmissionType = 1,
+                            TransmissionId = 2,
                             Year = 2014
                         },
                         new
@@ -240,17 +162,17 @@ namespace CarShop.Infrastructure.Migrations
                             CategoryId = 2,
                             Colour = "Black",
                             DealerId = 1,
+                            Description = "There is a scratch on rear bumper but overall the car is a great runner",
                             EngineId = "BMWWXXVV8777",
                             EngineSize = 3000,
-                            FuelType = 1,
+                            FuelId = 2,
                             HorsePower = 250,
                             ImageUrl = "https://vcache.arnoldclark.com/imageserver/ACRFNV0147DA-S-/800/f",
-                            IsActive = true,
                             Make = "BMW",
                             Model = "530d XDrive",
                             Price = 40000.00m,
                             RegNumber = "SA71VFC",
-                            TransmissionType = 1,
+                            TransmissionId = 2,
                             Year = 2021
                         },
                         new
@@ -259,17 +181,17 @@ namespace CarShop.Infrastructure.Migrations
                             CategoryId = 3,
                             Colour = "White",
                             DealerId = 1,
+                            Description = "Very good and reliable SUV with 7 seats. This is a perfect family car!",
                             EngineId = "CCWWXXVV8777",
                             EngineSize = 2000,
-                            FuelType = 0,
+                            FuelId = 1,
                             HorsePower = 160,
                             ImageUrl = "https://images.clickdealer.co.uk/vehicles/4556/4556096/large2/102784640.jpg",
-                            IsActive = true,
                             Make = "Chevrolet",
                             Model = "Captiva LT",
                             Price = 13000.00m,
                             RegNumber = "WF12GZC",
-                            TransmissionType = 0,
+                            TransmissionId = 1,
                             Year = 2021
                         });
                 });
@@ -361,6 +283,71 @@ namespace CarShop.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CarShop.Infrastructure.Data.FuelType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FuelTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "Petrol"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "Diesel"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Type = "Electric"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Type = "Hybrid"
+                        });
+                });
+
+            modelBuilder.Entity("CarShop.Infrastructure.Data.Garage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("GarageName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Garages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            GarageName = "AutoGarage"
+                        });
+                });
+
             modelBuilder.Entity("CarShop.Infrastructure.Data.Mechanic", b =>
                 {
                     b.Property<int>("Id")
@@ -374,6 +361,9 @@ namespace CarShop.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int?>("GarageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -384,7 +374,9 @@ namespace CarShop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Mechanic");
+                    b.HasIndex("GarageId");
+
+                    b.ToTable("Mechanics");
 
                     b.HasData(
                         new
@@ -418,6 +410,9 @@ namespace CarShop.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("GarageId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("money");
@@ -428,7 +423,9 @@ namespace CarShop.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Service");
+                    b.HasIndex("GarageId");
+
+                    b.ToTable("Services");
 
                     b.HasData(
                         new
@@ -453,7 +450,7 @@ namespace CarShop.Infrastructure.Migrations
                         {
                             Id = 4,
                             Price = 250.00m,
-                            ServiceName = "Windcreen"
+                            ServiceName = "Windscreen"
                         },
                         new
                         {
@@ -490,6 +487,36 @@ namespace CarShop.Infrastructure.Migrations
                             Id = 10,
                             Price = 400.00m,
                             ServiceName = "Suspension"
+                        });
+                });
+
+            modelBuilder.Entity("CarShop.Infrastructure.Data.TransmissionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransmissionTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Type = "Manual"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Type = "Automatic"
                         });
                 });
 
@@ -543,6 +570,105 @@ namespace CarShop.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "12bb040f-75a0-4404-bf2d-6927a2ddb8ee",
+                            Email = "dealer@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "dealer@mail.com",
+                            NormalizedUserName = "dealer@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKLzy6TxiCtEOQ+OkbM5uRDPuT4G4RyaWwWXAfjtr8hWEHAJVQG5K+kJR7H/4Sey+g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4f7bc2f2-e977-450c-9d9d-8c76c147f13f",
+                            TwoFactorEnabled = false,
+                            UserName = "dealer@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cfdf857d-e553-4c89-bc48-b5f31621e740",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAENNr1+EFsWSChazWLpwOVRK90Ci5vXGf6gT/vMt/lBvMm2+uhP11Glg4VtFLTfYd0A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "dcb29c3f-b970-4e16-a1c5-a790fe59898b",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -630,9 +756,28 @@ namespace CarShop.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CarShop.Infrastructure.Data.Booking", b =>
+                {
+                    b.HasOne("CarShop.Infrastructure.Data.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarShop.Infrastructure.Data.Dealer", "Dealer")
+                        .WithMany()
+                        .HasForeignKey("DealerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("Dealer");
+                });
+
             modelBuilder.Entity("CarShop.Infrastructure.Data.Car", b =>
                 {
-                    b.HasOne("CarShop.Infrastructure.Data.ApplicationUser", "Buyer")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerId");
 
@@ -648,22 +793,52 @@ namespace CarShop.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarShop.Infrastructure.Data.FuelType", "Fuel")
+                        .WithMany()
+                        .HasForeignKey("FuelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarShop.Infrastructure.Data.TransmissionType", "Transmission")
+                        .WithMany()
+                        .HasForeignKey("TransmissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Buyer");
 
                     b.Navigation("Category");
 
                     b.Navigation("Dealer");
+
+                    b.Navigation("Fuel");
+
+                    b.Navigation("Transmission");
                 });
 
             modelBuilder.Entity("CarShop.Infrastructure.Data.Dealer", b =>
                 {
-                    b.HasOne("CarShop.Infrastructure.Data.ApplicationUser", "User")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CarShop.Infrastructure.Data.Mechanic", b =>
+                {
+                    b.HasOne("CarShop.Infrastructure.Data.Garage", null)
+                        .WithMany("Mechanics")
+                        .HasForeignKey("GarageId");
+                });
+
+            modelBuilder.Entity("CarShop.Infrastructure.Data.Service", b =>
+                {
+                    b.HasOne("CarShop.Infrastructure.Data.Garage", null)
+                        .WithMany("Services")
+                        .HasForeignKey("GarageId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -677,7 +852,7 @@ namespace CarShop.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("CarShop.Infrastructure.Data.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -686,7 +861,7 @@ namespace CarShop.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CarShop.Infrastructure.Data.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -701,7 +876,7 @@ namespace CarShop.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarShop.Infrastructure.Data.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -710,7 +885,7 @@ namespace CarShop.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("CarShop.Infrastructure.Data.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -720,6 +895,13 @@ namespace CarShop.Infrastructure.Migrations
             modelBuilder.Entity("CarShop.Infrastructure.Data.Category", b =>
                 {
                     b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("CarShop.Infrastructure.Data.Garage", b =>
+                {
+                    b.Navigation("Mechanics");
+
+                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }

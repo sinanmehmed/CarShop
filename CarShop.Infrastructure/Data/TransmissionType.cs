@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace CarShop.Infrastructure.Data
 {
-    public enum TransmissionType
+    public class TransmissionType
     {
-        Manual,
-        Automatic
+        //Manual,
+        //Automatic
+
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string Type { get; set; } = null!;
     }
 }

@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace CarShop.Infrastructure.Data
 {
-    public enum FuelType
+    public class FuelType
     {
-        Petrol,
-        Diesel,
-        Electric,
-        Hybrid
+        
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        public string Type { get; set; } = null!;
     }
 }

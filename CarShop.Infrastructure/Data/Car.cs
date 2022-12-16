@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,6 +8,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarShop.Infrastructure.Data
 {
@@ -23,6 +25,10 @@ namespace CarShop.Infrastructure.Data
         [Required]
         [StringLength(50)]
         public string Model { get; set; } = null!;
+
+        [Required]
+        [StringLength(500)]
+        public string Description { get; set; } = null!;
 
         [Required]
         [StringLength(50)]
@@ -56,10 +62,16 @@ namespace CarShop.Infrastructure.Data
         public int HorsePower { get; set; }
 
         [Required]
-        public FuelType FuelType { get; set; }
+        public int FuelId { get; set; }
+
+        [ForeignKey(nameof(FuelId))]
+        public FuelType Fuel { get; set; }
 
         [Required]
-        public TransmissionType TransmissionType { get; set; }
+        public int TransmissionId { get; set; }
+
+        [ForeignKey(nameof(TransmissionId))]
+        public TransmissionType Transmission { get; set; }
 
         [Required]
         [StringLength(200)]
@@ -79,8 +91,6 @@ namespace CarShop.Infrastructure.Data
         public string? BuyerId { get; set; }
 
         [ForeignKey(nameof(BuyerId))]
-        public ApplicationUser? Buyer { get; set; }
-
-        public bool IsActive { get; set; } = true;
+        public IdentityUser? Buyer { get; set; }
     }
 }

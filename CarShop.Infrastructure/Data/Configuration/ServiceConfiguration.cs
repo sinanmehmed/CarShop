@@ -46,7 +46,7 @@ namespace CarShop.Infrastructure.Data.Configuration
                 new Service()
                  {
                       Id = 4,
-                      ServiceName = "Windcreen",
+                      ServiceName = "Windscreen",
                       Price = 250.00M
 
                  },
