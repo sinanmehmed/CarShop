@@ -1,4 +1,5 @@
-﻿using CarShop.Models;
+﻿using CarShop.Core.Contracts;
+using CarShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,16 +7,22 @@ namespace CarShop.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
+        private readonly ICarService carService;
+
+        public HomeController(ICarService _carService)
+        {
+            carService = _carService;
+        }
 
         //public HomeController(ILogger<HomeController> logger)
         //{
         //    _logger = logger;
         //}
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await carService.LastThreeCars();
+            return View(model);
         }
 
         //public IActionResult Privacy()
