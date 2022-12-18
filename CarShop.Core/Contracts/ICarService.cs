@@ -11,5 +11,11 @@ namespace CarShop.Core.Contracts
     {
         Task<IEnumerable<CarHomeModel>> LastThreeCars();
 
+        Task<IEnumerable<CarCategoryModel>> AllCategories();
+
+        Task<IEnumerable<CarFuelModel>> AllFuels();
+
+        Task<IEnumerable<CarTransmissionModel>> AllTransmissions();
+
     }
 }

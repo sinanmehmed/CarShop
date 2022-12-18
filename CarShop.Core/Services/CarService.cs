@@ -19,6 +19,43 @@ namespace CarShop.Core.Services
         {
             repo = _repo;
         }
+
+        public async Task<IEnumerable<CarCategoryModel>> AllCategories()
+        {
+            return await repo.AllReadonly<Category>()
+                .OrderBy(c => c.Name)
+                .Select(c => new CarCategoryModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CarFuelModel>> AllFuels()
+        {
+            return await repo.AllReadonly<FuelType>()
+                .OrderBy(c => c.Type)
+                .Select(c => new CarFuelModel()
+                {
+                    Id = c.Id,
+                    Type = c.Type
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CarTransmissionModel>> AllTransmissions()
+        {
+            return await repo.AllReadonly<TransmissionType>()
+                .OrderBy(c => c.Type)
+                .Select(c => new CarTransmissionModel()
+                {
+                    Id = c.Id,
+                    Type = c.Type
+                })
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<CarHomeModel>> LastThreeCars()
         {
             return await repo.AllReadonly<Car>()
