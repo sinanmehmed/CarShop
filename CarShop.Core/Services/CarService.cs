@@ -56,6 +56,25 @@ namespace CarShop.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<bool> CategoryExists(int categoryId)
+        {
+            return await repo.AllReadonly<Category>()
+                .AnyAsync(c => c.Id == categoryId);
+        }
+
+        public async Task<int> CreateCategory(CarModel model)
+        {
+            var car = new Car()
+            {
+
+            };
+
+            await repo.AddAsync(car);
+            await repo.SaveChangesAsync();
+
+            return car.Id;
+        }
+
         public async Task<IEnumerable<CarHomeModel>> LastThreeCars()
         {
             return await repo.AllReadonly<Car>()

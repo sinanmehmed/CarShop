@@ -17,5 +17,9 @@ namespace CarShop.Core.Contracts
 
         Task<IEnumerable<CarTransmissionModel>> AllTransmissions();
 
+        Task<bool> CategoryExists(int categoryId);
+
+        Task<int> CreateCategory(CarModel model);
+
     }
 }
