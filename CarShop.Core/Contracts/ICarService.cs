@@ -23,5 +23,7 @@ namespace CarShop.Core.Contracts
 
         Task<bool> FuelExists(int categoryId);
 
+        Task<bool> TransmissionExists(int categoryId);
+
     }
 }

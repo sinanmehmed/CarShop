@@ -68,6 +68,11 @@ namespace CarShop.Core.Services
                 .AnyAsync(c => c.Id == fuelId);
         }
 
+        public async Task<bool> TransmissionExists(int transmissionId)
+        {
+            return await repo.AllReadonly<TransmissionType>()
+                .AnyAsync(c => c.Id == transmissionId);
+        }
         public async Task<int> CreateCar(CarModel model)
         {
             var car = new Car()
