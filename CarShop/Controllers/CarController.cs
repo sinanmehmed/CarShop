@@ -64,7 +64,35 @@ namespace CarShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(CarModel model)
         {
-            int id = 1;
+            if ((await dealerService.ExistsById(User.Id())) == false)
+            {
+                return RedirectToAction(nameof(DealerController.Become), " Dealer");
+            }
+
+            if((await carService.CategoryExists(model.CategoryId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+            }
+
+            if ((await carService.FuelExists(model.FuelId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.FuelId), "Fuel does not exist");
+            }
+
+            if ((await carService.TransmissionExists(model.TransmissionId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.TransmissionId), "Transmission does not exist");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.CarCategories = await carService.AllCategories();
+                model.CarFuels = await carService.AllFuels();
+                model.CarTransmissions = await carService.AllTransmissions();
+                return View(model);
+            }
+
+            int id = await carService.CreateCar(model);
 
             return RedirectToAction(nameof(Details), new { id });
         }

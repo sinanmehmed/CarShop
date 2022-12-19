@@ -73,7 +73,7 @@ namespace CarShop.Core.Services
             return await repo.AllReadonly<TransmissionType>()
                 .AnyAsync(c => c.Id == transmissionId);
         }
-        public async Task<int> CreateCar(CarModel model)
+        public async Task<int> CreateCar(CarModel model, int dealerId)
         {
             var car = new Car()
             {
@@ -87,7 +87,8 @@ namespace CarShop.Core.Services
                 FuelId = model.FuelId,
                 TransmissionId = model.TransmissionId,
                 ImageUrl = model.ImageUrl,
-                Price = model.Price
+                Price = model.Price,
+                DealerId = dealerId
             };
 
             await repo.AddAsync(car);

@@ -37,6 +37,12 @@ namespace CarShop.Core.Services
                 .AnyAsync(d => d.UserId == userId);
         }
 
+        public async Task<int> GetDealerId(string userId)
+        {
+            return (await repo.AllReadonly<Dealer>()
+                .FirstOrDefaultAsync(d => d.UserId == userId))?.Id ?? 0;
+        }
+
         public async Task<bool> UserHasCars(string userId)
         {
             return await repo.All<Car>()

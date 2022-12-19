@@ -15,5 +15,7 @@ namespace CarShop.Core.Contracts
         Task<bool> UserHasCars(string userId);
 
         Task Create(string userId, string phoneNumber);
+
+        Task<int> GetDealerId(string userId);
     }
 }
