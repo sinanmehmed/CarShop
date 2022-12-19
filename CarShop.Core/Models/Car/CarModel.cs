@@ -37,6 +37,23 @@ namespace CarShop.Core.Models.Car
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        [Required]
+        [StringLength(10)]
+        public string RegNumber { get; set; } = null!;
+
+        [Required]
+        [Range(1910, 2022)]
+        public int Year { get; set; }
+
+        [Required]
+        [Display(Name = "Cubic cm")]
+        [Range(0, 10000)]
+        public int EngineSize { get; set; }
+
+        [Required]
+        [Range(0, 1500)]
+        public int HorsePower { get; set; }
+
         [Display(Name = "Fuel")]
         public int FuelId { get; set; }
 

@@ -19,7 +19,7 @@ namespace CarShop.Core.Contracts
 
         Task<bool> CategoryExists(int categoryId);
 
-        Task<int> CreateCategory(CarModel model);
+        Task<int> CreateCar(CarModel model);
 
     }
 }

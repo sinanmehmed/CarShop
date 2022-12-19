@@ -62,11 +62,21 @@ namespace CarShop.Core.Services
                 .AnyAsync(c => c.Id == categoryId);
         }
 
-        public async Task<int> CreateCategory(CarModel model)
+        public async Task<int> CreateCar(CarModel model)
         {
             var car = new Car()
             {
-
+                Make = model.Make,
+                Model = model.Model,
+                Description = model.Description,
+                Colour = model.Colour,
+                CategoryId = model.CategoryId,
+                RegNumber = model.RegNumber,
+                Year = model.Year,
+                FuelId = model.FuelId,
+                TransmissionId = model.TransmissionId,
+                ImageUrl = model.ImageUrl,
+                Price = model.Price
             };
 
             await repo.AddAsync(car);
