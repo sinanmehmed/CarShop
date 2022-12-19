@@ -1,5 +1,6 @@
 ﻿using CarShop.Core.Contracts;
 using CarShop.Core.Models.Car;
+using CarShop.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,14 @@ namespace CarShop.Controllers
     {
         private readonly ICarService carService;
 
-        public CarController(ICarService _carService)
+        private readonly IDealerService dealerService;
+
+        public CarController(
+            ICarService _carService,
+            IDealerService _dealerService)
         {
             carService = _carService;
+            dealerService = _dealerService;
         }
 
         [AllowAnonymous]
@@ -38,7 +44,22 @@ namespace CarShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add() => View();
+        public async Task<IActionResult> Add()
+        {
+
+            if ((await dealerService.ExistsById(User.Id())) == false)
+            {
+                return RedirectToAction(nameof(DealerController.Become), " Dealer");
+            }
+
+            var model = new CarModel()
+            {
+                CarCategories = await carService.AllCategories(),
+                CarFuels = await carService.AllFuels(),
+                CarTransmissions = await carService.AllTransmissions()
+            };
+            return View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Add(CarModel model)
