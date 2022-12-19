@@ -1,0 +1,98 @@
+﻿@model CarModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            @*<input type="hidden" asp-for="@Model.Id" />*@
+            <div class="form-group">
+                <label asp-for="Make"></label>
+                <input asp-for="Make" class="form-control" placeholder="Make...">
+                <span asp-validation-for="Make" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model"></label>
+                <input asp-for="Model" class="form-control" placeholder="Model...">
+                <span asp-validation-for="Model" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Colour"></label>
+                <input asp-for="Colour" class="form-control" placeholder="Colour...">
+                <span asp-validation-for="Colour" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegNumber"></label>
+                <input asp-for="RegNumber" class="form-control" placeholder="RegNumber...">
+                <span asp-validation-for="RegNumber" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year"></label>
+                <input asp-for="Year" class="form-control" placeholder="Year...">
+                <span asp-validation-for="Year" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EngineSize"></label>
+                <input asp-for="EngineSize" class="form-control" placeholder="EngineSize...">
+                <span asp-validation-for="EngineSize" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HorsePower"></label>
+                <input asp-for="HorsePower" class="form-control" placeholder="HorsePower...">
+                <span asp-validation-for="HorsePower" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Description..."></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl"></label>
+                <input asp-for="ImageUrl" class="form-control" placeholder="Type URL here...">
+                <span asp-validation-for="ImageUrl" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control">
+                <span asp-validation-for="Price" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in Model.CarCategories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FuelId"></label>
+                <select asp-for="FuelId" class="form-control">
+                    @foreach (var fuel in Model.CarFuels)
+                    {
+                        <option value="@fuel.Id">@fuel.Type</option>
+                    }
+                </select>
+                <span asp-validation-for="FuelId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TransmissionId"></label>
+                <select asp-for="TransmissionId" class="form-control">
+                    @foreach (var transmission in Model.CarTransmissions)
+                    {
+                        <option value="@transmission.Id">@transmission.Type</option>
+                    }
+                </select>
+                <span asp-validation-for="TransmissionId" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}

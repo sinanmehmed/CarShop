@@ -92,7 +92,9 @@ namespace CarShop.Controllers
                 return View(model);
             }
 
-            int id = await carService.CreateCar(model);
+            int dealerId = await dealerService.GetDealerId(User.Id());
+
+            int id = await carService.CreateCar(model, dealerId);
 
             return RedirectToAction(nameof(Details), new { id });
         }
