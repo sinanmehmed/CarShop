@@ -62,6 +62,12 @@ namespace CarShop.Core.Services
                 .AnyAsync(c => c.Id == categoryId);
         }
 
+        public async Task<bool> FuelExists(int fuelId)
+        {
+            return await repo.AllReadonly<FuelType>()
+                .AnyAsync(c => c.Id == fuelId);
+        }
+
         public async Task<int> CreateCar(CarModel model)
         {
             var car = new Car()

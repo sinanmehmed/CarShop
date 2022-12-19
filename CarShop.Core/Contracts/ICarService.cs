@@ -21,5 +21,7 @@ namespace CarShop.Core.Contracts
 
         Task<int> CreateCar(CarModel model);
 
+        Task<bool> FuelExists(int categoryId);
+
     }
 }
