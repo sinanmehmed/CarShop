@@ -22,6 +22,7 @@ namespace CarShop.Controllers
             dealerService = _dealerService;
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
         {
