@@ -169,5 +169,68 @@ namespace CarShop.Core.Services
                 .Distinct()
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<CarServiceModel>> AllCarsByDealerId(int id)
+        {
+            return await repo.AllReadonly<Car>()
+                //.Where(c => c.IsActive)
+                .Where(c => c.DealerId == id)
+                .Select(c => new CarServiceModel()
+                {
+                    Make = c.Make,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    IsBought = c.BuyerId != null,
+                    Price = c.Price,
+                    Model = c.Model
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<CarServiceModel>> AllCarsByUserId(string userId)
+        {
+            return await repo.AllReadonly<Car>()
+                .Where(c => c.BuyerId == userId)
+                //.Where(c => c.IsActive)
+                .Select(c => new CarServiceModel()
+                {
+                    Make = c.Make,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    IsBought = c.BuyerId != null,
+                    Price = c.Price,
+                    Model = c.Model
+                })
+                .ToListAsync();
+        }
+
+        public async Task<CarDetailsModel> CarDetailsById(int id)
+        {
+            return await repo.AllReadonly<Car>()
+                .Where(c => c.Id == id)
+                .Select(c => new CarDetailsModel()
+                {
+                    Make = c.Make,
+                    Category = c.Category.Name,
+                    Description = c.Description,
+                    Id = id,
+                    ImageUrl = c.ImageUrl,
+                    IsBought = c.BuyerId != null,
+                    Price = c.Price,
+                    Model = c.Model,
+                    Dealer = new Models.Dealer.DealerServiceModel()
+                    {
+                        Email = c.Dealer.User.Email,
+                        PhoneNumber = c.Dealer.PhoneNumber
+                    }
+                })
+                .FirstAsync();
+        }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await repo.AllReadonly<Car>()
+                .AnyAsync(c => c.Id == id); 
+        }
     }
 }

@@ -34,5 +34,13 @@ namespace CarShop.Core.Contracts
 
         Task<IEnumerable<string>> AllCategoriesNames();
 
+        Task<IEnumerable<CarServiceModel>> AllCarsByDealerId(int id);
+
+        Task<IEnumerable<CarServiceModel>> AllCarsByUserId(string userId);
+
+        Task<CarDetailsModel> CarDetailsById(int id);
+
+        Task<bool> Exists(int id);
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CarShop.Core.Contracts;
 using CarShop.Core.Models.Car;
 using CarShop.Extensions;
+using CarShop.Infrastructure.Data;
 using CarShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,15 +43,33 @@ namespace CarShop.Controllers
 
         public async Task<IActionResult> Mine()
         {
-            var model = new CarsQueryModel();
+            IEnumerable<CarServiceModel> myCars;
+            var userId = User.Id();
 
-            return View(model);
+            if (await dealerService.ExistsById(userId))
+            {
+                int dealerId = await dealerService.GetDealerId(userId);
+                myCars = await carService.AllCarsByDealerId(dealerId);
+            }
+            else
+            {
+                myCars = await carService.AllCarsByUserId(userId);
+            }
+
+            return View(myCars);
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            var model = new CarDetailsModel();
+            if (await carService.Exists(id) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            var model = await carService.CarDetailsById(id);
+
+
             return View(model);
         }
 
