@@ -112,5 +112,62 @@ namespace CarShop.Core.Services
                 .Take(3)
                 .ToListAsync();
         }
+
+        public async Task<CarsQueryModel> All(string? category = null, string? searchTerm = null, CarSorting sorting = CarSorting.Newest, int currentPage = 1, int carsPerPage = 1)
+        {
+            var result = new CarsQueryModel();
+            var cars = repo.AllReadonly<Car>();
+
+            if (string.IsNullOrEmpty(category) == false)
+            {
+                cars = cars.Where(c => c.Category.Name == category);
+            }
+
+            if (string.IsNullOrEmpty(searchTerm) == false)
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                cars = cars
+                    .Where(h => EF.Functions.Like(h.Make.ToLower(), searchTerm) ||
+                        EF.Functions.Like(h.Model.ToLower(), searchTerm) ||
+                        EF.Functions.Like(h.Description.ToLower(), searchTerm));
+            }
+
+            cars = sorting switch
+            {
+                CarSorting.Price => cars
+                    .OrderBy(c => c.Price),
+                CarSorting.NotBoughtFirst => cars
+                    .OrderBy(h => h.BuyerId),
+                _ => cars.OrderByDescending(c => c.Id)
+            };
+
+            result.Cars = await cars
+                .Skip((currentPage - 1) * carsPerPage)
+                .Take(carsPerPage)
+                .Select(c => new CarServiceModel()
+                {
+                    Make = c.Make,
+                    Model =c.Model,
+                    Id = c.Id,
+                    ImageUrl = c.ImageUrl,
+                    IsBought = c.BuyerId != null,
+                    Price = c.Price
+                    
+                })
+                .ToListAsync();
+
+            result.TotalCarsCount = await cars.CountAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<string>> AllCategoriesNames()
+        {
+            return await repo.AllReadonly<Category>()
+                .Select(c => c.Name)
+                .Distinct()
+                .ToListAsync();
+        }
     }
 }

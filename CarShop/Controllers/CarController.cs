@@ -1,6 +1,7 @@
 ﻿using CarShop.Core.Contracts;
 using CarShop.Core.Models.Car;
 using CarShop.Extensions;
+using CarShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,11 +23,20 @@ namespace CarShop.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
         {
-            var model = new CarsQueryModel();
+            var result = await carService.All(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllCarsQueryModel.CarsPerPage);
 
-            return View(model);
+            query.TotalCarsCount = result.TotalCarsCount;
+            query.Categories = await carService.AllCategoriesNames();
+            query.Cars = result.Cars;
+
+            return View(query);
         }
 
         public async Task<IActionResult> Mine()

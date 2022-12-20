@@ -25,5 +25,14 @@ namespace CarShop.Core.Contracts
 
         Task<bool> TransmissionExists(int transmissionId);
 
+        Task<CarsQueryModel> All(
+            string? category = null,
+            string? searchTerm = null,
+            CarSorting sorting = CarSorting.Newest,
+            int currentPage = 1,
+            int carsPerPage = 1);
+
+        Task<IEnumerable<string>> AllCategoriesNames();
+
     }
 }
