@@ -232,5 +232,47 @@ namespace CarShop.Core.Services
             return await repo.AllReadonly<Car>()
                 .AnyAsync(c => c.Id == id); 
         }
+
+        public async Task Edit(int carId, CarModel model)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+
+            car.Make = model.Make;
+            car.Model = model.Model;
+            car.Description = model.Description;
+            car.ImageUrl = model.ImageUrl;
+            car.Price = model.Price;
+            car.CategoryId = model.CategoryId;
+            car.FuelId = model.FuelId;
+            car.TransmissionId = model.TransmissionId;
+            car.RegNumber = model.RegNumber;
+            car.Colour = model.Colour;
+            car.EngineSize = model.EngineSize;
+            car.HorsePower = model.HorsePower;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasDealerWithId(int carId, string currentUserId)
+        {
+            bool result = false;
+            var car = await repo.AllReadonly<Car>()
+                //.Where(c => c.IsActive)
+                .Where(c => c.Id == carId)
+                .Include(c => c.Dealer)
+                .FirstOrDefaultAsync();
+
+            if (car?.Dealer != null && car.Dealer.UserId == currentUserId)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<int> GetCarCategoryId(int carId)
+        {
+            return (await repo.GetByIdAsync<Car>(carId)).CategoryId;
+        }
     }
 }

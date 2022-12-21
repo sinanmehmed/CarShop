@@ -9,6 +9,8 @@ namespace CarShop.Core.Models.Car
 {
     public class CarModel
     {
+        public int Id { get; set; }
+
         [Required]
         [StringLength(50, MinimumLength = 2)]
         public string Make { get; set; } = null!;

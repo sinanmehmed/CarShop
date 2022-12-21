@@ -5,6 +5,7 @@ using CarShop.Infrastructure.Data;
 using CarShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CarShop.Controllers
 {
@@ -25,7 +26,7 @@ namespace CarShop.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> All([FromQuery]AllCarsQueryModel query)
+        public async Task<IActionResult> All([FromQuery] AllCarsQueryModel query)
         {
             var result = await carService.All(
                 query.Category,
@@ -99,7 +100,7 @@ namespace CarShop.Controllers
                 return RedirectToAction(nameof(DealerController.Become), " Dealer");
             }
 
-            if((await carService.CategoryExists(model.CategoryId)) == false)
+            if ((await carService.CategoryExists(model.CategoryId)) == false)
             {
                 ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
             }
@@ -132,19 +133,73 @@ namespace CarShop.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new CarModel();
+            if ((await carService.Exists(id) == false))
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if ((await carService.HasDealerWithId(id, User.Id())) == false)
+            {
+                //logger.LogInformation("User with id {0} attempted to open other agent house", User.Id());
+
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var car = await carService.CarDetailsById(id);
+            var categoryId = await carService.GetCarCategoryId(id);
+
+            var model = new CarModel()
+            {
+                Id = id,
+                Make = car.Make,
+                Model = car.Model,
+                CategoryId = categoryId,
+                Description = car.Description,
+                ImageUrl = car.ImageUrl,
+                Price = car.Price,
+                CarCategories = await carService.AllCategories()
+            };
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, CarModel model)
+        public async Task<IActionResult> Edit(CarModel model)
         {
-            
-            return RedirectToAction(nameof(Details), new { id });
+            if ((await carService.Exists(model.Id)) == false)
+            {
+                ModelState.AddModelError("", "The car does not exist!");
+                model.CarCategories = await carService.AllCategories();
+
+                return View(model);
+            }
+
+            if ((await carService.HasDealerWithId(model.Id, User.Id())) == false)
+            {
+                return RedirectToAction("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if ((await carService.CategoryExists(model.CategoryId)) == false)
+            {
+                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist!");
+                model.CarCategories = await carService.AllCategories();
+
+                return View(model);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.CarCategories = await carService.AllCategories();
+
+                return View(model);
+            }
+
+            await carService.Edit(model.Id, model);
+
+            return RedirectToAction(nameof(Details), new { model.Id });
         }
 
-        
+
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
