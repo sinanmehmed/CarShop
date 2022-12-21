@@ -164,8 +164,13 @@ namespace CarShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CarModel model)
+        public async Task<IActionResult> Edit(int id, CarModel model)
         {
+            if (id != model.Id)
+            {
+                return RedirectToAction("/Account/AccessDenied", new { area = "Identity" });
+            }
+
             if ((await carService.Exists(model.Id)) == false)
             {
                 ModelState.AddModelError("", "The car does not exist!");
@@ -199,10 +204,44 @@ namespace CarShop.Controllers
             return RedirectToAction(nameof(Details), new { model.Id });
         }
 
-
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
+            if ((await carService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if ((await carService.HasDealerWithId(id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var car = await carService.CarDetailsById(id);
+            var model = new CarDetailsViewModel()
+            {
+                Make = car.Make,
+                ImageUrl = car.ImageUrl,
+                Model = car.Model
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id, CarDetailsViewModel model)
+        {
+            if ((await carService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if ((await carService.HasDealerWithId(id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await carService.Delete(id);
 
             return RedirectToAction(nameof(All));
         }
@@ -210,6 +249,26 @@ namespace CarShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Buy(int id)
         {
+            if ((await carService.Exists(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+            if ((await carService.HasDealerWithId(id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (/*!User.IsInRole(AdminRolleName) && */await dealerService.ExistsById(User.Id()))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            if (await carService.IsBought(id))
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            await carService.Buy(id, User.Id());
 
             return RedirectToAction(nameof(Mine));
         }
@@ -217,6 +276,18 @@ namespace CarShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Sell(int id)
         {
+            if ((await carService.Exists(id)) == false ||
+                            (await carService.IsBought(id)) == false)
+            {
+                return RedirectToAction(nameof(All));
+            }
+
+            if ((await carService.IsBoughtByUserId(id, User.Id())) == false)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await carService.Sell(id);
 
             return RedirectToAction(nameof(Mine));
         }

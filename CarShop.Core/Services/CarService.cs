@@ -1,4 +1,5 @@
 ﻿using CarShop.Core.Contracts;
+using CarShop.Core.Exceptions;
 using CarShop.Core.Models.Car;
 using CarShop.Infrastructure.Data;
 using CarShop.Infrastructure.Data.Common;
@@ -15,9 +16,14 @@ namespace CarShop.Core.Services
     {
         private readonly IRepository repo;
 
-        public CarService(IRepository _repo)
+        private readonly IGuard guard;
+
+        public CarService(
+            IRepository _repo,
+            IGuard _guard)
         {
             repo = _repo;
+            guard = _guard;
         }
 
         public async Task<IEnumerable<CarCategoryModel>> AllCategories()
@@ -100,6 +106,7 @@ namespace CarShop.Core.Services
         public async Task<IEnumerable<CarHomeModel>> LastThreeCars()
         {
             return await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
                 .OrderByDescending(c => c.Id)
                 .Select(c => new CarHomeModel() 
                 {
@@ -207,6 +214,7 @@ namespace CarShop.Core.Services
         public async Task<CarDetailsModel> CarDetailsById(int id)
         {
             return await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
                 .Where(c => c.Id == id)
                 .Select(c => new CarDetailsModel()
                 {
@@ -230,7 +238,7 @@ namespace CarShop.Core.Services
         public async Task<bool> Exists(int id)
         {
             return await repo.AllReadonly<Car>()
-                .AnyAsync(c => c.Id == id); 
+                .AnyAsync(c => c.Id == id && c.IsActive); 
         }
 
         public async Task Edit(int carId, CarModel model)
@@ -257,7 +265,7 @@ namespace CarShop.Core.Services
         {
             bool result = false;
             var car = await repo.AllReadonly<Car>()
-                //.Where(c => c.IsActive)
+                .Where(c => c.IsActive)
                 .Where(c => c.Id == carId)
                 .Include(c => c.Dealer)
                 .FirstOrDefaultAsync();
@@ -279,6 +287,51 @@ namespace CarShop.Core.Services
         {
             var car = await repo.GetByIdAsync<Car>(carId);
             car.IsActive = false;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsBought(int carId)
+        {
+            return (await repo.GetByIdAsync<Car>(carId)).BuyerId != null;
+        }
+
+        public async Task<bool> IsBoughtByUserId(int carId, string currentUserId)
+        {
+            bool result = false;
+            var car = await repo.AllReadonly<Car>()
+                .Where(c => c.IsActive)
+                .Where(c => c.Id == carId)
+                .FirstOrDefaultAsync();
+
+            if (car != null && car.BuyerId == currentUserId)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task Buy(int carId, string currentUserId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+
+            if (car != null && car.BuyerId != null)
+            {
+                throw new ArgumentException("Car was already bought");
+            }
+
+            guard.AgainstNull(car, "Car can not be found");
+            car.BuyerId = currentUserId;
+
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task Sell(int carId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+            guard.AgainstNull(car, "Car can not be found");
+            car.BuyerId = null;
 
             await repo.SaveChangesAsync();
         }

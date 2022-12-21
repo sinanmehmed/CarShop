@@ -50,5 +50,13 @@ namespace CarShop.Core.Contracts
 
         Task Delete(int carId);
 
+        Task<bool> IsBought(int carId);
+
+        Task<bool> IsBoughtByUserId(int carId, string currentUserId);
+
+        Task Buy(int carId, string currentUserId);
+
+        Task Sell(int carId);
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CarShop.Core.Contracts;
+using CarShop.Core.Exceptions;
 using CarShop.Core.Services;
 using CarShop.Infrastructure.Data.Common;
 using System.Runtime.CompilerServices;
@@ -12,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IDealerService, DealerService>();
+            services.AddScoped<IGuard, Guard > ();
 
             return services;
         }
