@@ -92,5 +92,7 @@ namespace CarShop.Infrastructure.Data
 
         [ForeignKey(nameof(BuyerId))]
         public IdentityUser? Buyer { get; set; }
+
+        public bool IsActive { get; set; } = true;
     }
 }

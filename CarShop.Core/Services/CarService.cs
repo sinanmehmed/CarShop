@@ -173,7 +173,7 @@ namespace CarShop.Core.Services
         public async Task<IEnumerable<CarServiceModel>> AllCarsByDealerId(int id)
         {
             return await repo.AllReadonly<Car>()
-                //.Where(c => c.IsActive)
+                .Where(c => c.IsActive)
                 .Where(c => c.DealerId == id)
                 .Select(c => new CarServiceModel()
                 {
@@ -191,7 +191,7 @@ namespace CarShop.Core.Services
         {
             return await repo.AllReadonly<Car>()
                 .Where(c => c.BuyerId == userId)
-                //.Where(c => c.IsActive)
+                .Where(c => c.IsActive)
                 .Select(c => new CarServiceModel()
                 {
                     Make = c.Make,
@@ -273,6 +273,14 @@ namespace CarShop.Core.Services
         public async Task<int> GetCarCategoryId(int carId)
         {
             return (await repo.GetByIdAsync<Car>(carId)).CategoryId;
+        }
+
+        public async Task Delete(int carId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+            car.IsActive = false;
+
+            await repo.SaveChangesAsync();
         }
     }
 }
