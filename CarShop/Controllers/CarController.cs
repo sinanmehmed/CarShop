@@ -140,8 +140,7 @@ namespace CarShop.Controllers
 
             if ((await carService.HasDealerWithId(id, User.Id())) == false)
             {
-                //logger.LogInformation("User with id {0} attempted to open other agent house", User.Id());
-
+                
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 

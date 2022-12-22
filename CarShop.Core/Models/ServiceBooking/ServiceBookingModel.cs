@@ -34,9 +34,9 @@ namespace CarShop.Core.Models.ServiceBooking
         [Required]
         public int ServiceId { get; set; }
 
-        
+
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow.Date;
 
         public string? Comment { get; set; }
 
@@ -48,5 +48,7 @@ namespace CarShop.Core.Models.ServiceBooking
         public IEnumerable<ServiceBookingMechanicModel> ServiceBookingMechanics { get; set; } = new List<ServiceBookingMechanicModel>();
 
         public IEnumerable<ServiceBookingGarageModel> ServiceBookingGarages { get; set; } = new List<ServiceBookingGarageModel>();
+
+        public IEnumerable<ServiceBookingCarModel> ServiceBookingCars { get; set; } = new List<ServiceBookingCarModel>();
     }
 }

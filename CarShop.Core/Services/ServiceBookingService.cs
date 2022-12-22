@@ -20,18 +20,15 @@ namespace CarShop.Core.Services
             repo = _repo;
         }
 
-        public async Task<IEnumerable<CarServiceModel>> AllCarsByUserId(string userId)
+        public async Task<IEnumerable<ServiceBookingCarModel>> AllCarsByUserId(string userId)
         {
             return await repo.AllReadonly<Car>()
                 .Where(c => c.BuyerId == userId)
                 .Where(c => c.IsActive)
-                .Select(c => new CarServiceModel()
+                .Select(c => new ServiceBookingCarModel()
                 {
-                    Make = c.Make,
                     Id = c.Id,
-                    ImageUrl = c.ImageUrl,
-                    IsBought = c.BuyerId != null,
-                    Price = c.Price,
+                    Make = c.Make,
                     Model = c.Model
                 })
                 .ToListAsync();
@@ -70,7 +67,8 @@ namespace CarShop.Core.Services
                 .Select(c => new ServiceBookingNameModel()
                 {
                     Id = c.Id,
-                    ServiceName = c.ServiceName + " - " + c.Price + " BGN"
+                    ServiceName = c.ServiceName,
+                    Price = c.Price,
                 })
                 .ToListAsync();
         }

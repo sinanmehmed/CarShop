@@ -14,7 +14,7 @@ namespace CarShop.Core.Contracts
         Task<IEnumerable<ServiceBookingNameModel>> AllServices();
 
         
-        Task<IEnumerable<CarServiceModel>> AllCarsByUserId(string userId);
+        Task<IEnumerable<ServiceBookingCarModel>> AllCarsByUserId(string userId);
 
         Task<IEnumerable<ServiceBookingMechanicModel>> AllMechanics();
 
