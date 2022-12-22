@@ -44,5 +44,9 @@ namespace CarShop.Core.Models.ServiceBooking
         public ServiceBookingStatus Status { get; set; } = ServiceBookingStatus.Pending;
 
         public IEnumerable<ServiceBookingNameModel> ServiceBookingNames { get; set; } = new List<ServiceBookingNameModel>();
+
+        public IEnumerable<ServiceBookingMechanicModel> ServiceBookingMechanics { get; set; } = new List<ServiceBookingMechanicModel>();
+
+        public IEnumerable<ServiceBookingGarageModel> ServiceBookingGarages { get; set; } = new List<ServiceBookingGarageModel>();
     }
 }
