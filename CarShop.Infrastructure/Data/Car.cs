@@ -48,10 +48,7 @@ namespace CarShop.Infrastructure.Data
         [Range(1910, 2022)]
         public int Year { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string EngineId { get; set; } = null!;
-
+        
         [Required]
         [Display(Name = "Cubic cm")]
         [Range(0, 10000)]

@@ -52,6 +52,7 @@ namespace CarShop.Core.Models.Car
         [Range(0, 10000)]
         public int EngineSize { get; set; }
 
+        
         [Required]
         [Range(0, 1500)]
         public int HorsePower { get; set; }

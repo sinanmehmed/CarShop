@@ -93,39 +93,39 @@ namespace CarShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(CarModel model)
+        public async Task<IActionResult> Add(CarModel carModel)
         {
             if ((await dealerService.ExistsById(User.Id())) == false)
             {
                 return RedirectToAction(nameof(DealerController.Become), " Dealer");
             }
 
-            if ((await carService.CategoryExists(model.CategoryId)) == false)
+            if ((await carService.CategoryExists(carModel.CategoryId)) == false)
             {
-                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+                ModelState.AddModelError(nameof(carModel.CategoryId), "Category does not exist");
             }
 
-            if ((await carService.FuelExists(model.FuelId)) == false)
+            if ((await carService.FuelExists(carModel.FuelId)) == false)
             {
-                ModelState.AddModelError(nameof(model.FuelId), "Fuel does not exist");
+                ModelState.AddModelError(nameof(carModel.FuelId), "Fuel does not exist");
             }
 
-            if ((await carService.TransmissionExists(model.TransmissionId)) == false)
+            if ((await carService.TransmissionExists(carModel.TransmissionId)) == false)
             {
-                ModelState.AddModelError(nameof(model.TransmissionId), "Transmission does not exist");
+                ModelState.AddModelError(nameof(carModel.TransmissionId), "Transmission does not exist");
             }
 
             if (!ModelState.IsValid)
             {
-                model.CarCategories = await carService.AllCategories();
-                model.CarFuels = await carService.AllFuels();
-                model.CarTransmissions = await carService.AllTransmissions();
-                return View(model);
+                carModel.CarCategories = await carService.AllCategories();
+                carModel.CarFuels = await carService.AllFuels();
+                carModel.CarTransmissions = await carService.AllTransmissions();
+                return View(carModel);
             }
 
             int dealerId = await dealerService.GetDealerId(User.Id());
 
-            int id = await carService.CreateCar(model, dealerId);
+            int id = await carService.CreateCar(carModel, dealerId);
 
             return RedirectToAction(nameof(Details), new { id });
         }
