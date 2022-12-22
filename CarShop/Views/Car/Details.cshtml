@@ -9,13 +9,11 @@
 
 <div class="container" style="display:inline">
     <div class="row">
-        <div class="col-4">
-            <img class="card-img-top" style="width: 20rem;"
-                 src="@Model.ImageUrl" alt="Car Image">
+        <div class="col-6">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="Car Image">
         </div>
-        <div class="card col-8 border-0">
-            <p style="font-size:25px;"><u>@Model.Make</u></p>
-            <p>Located in: <b>@Model.Model</b></p>
+        <div class="card col-6 border-0">
+            <h3><u><b>@Model.Make @Model.Model</b></u></h3>
             <p>
                 Price :
                 <b>@String.Format("{0:f2}", Model.Price) BGN</b>
@@ -32,14 +30,14 @@
                    asp-route-id="@Model.Id">Delete</a>
                     @if (!Model.IsBought)
                     {
-                        <form class="ml-2" asp-controller="Car"
+                        <form class="ml-2 d-inline" asp-controller="Car"
                       asp-action="Buy" asp-route-id="@Model.Id" method="post">
                             <input class="btn btn-primary" type="submit" value="Buy" />
                         </form>
                     }
                     else
                     {
-                        <form class="ml-2" asp-controller="Car" asp-action="Sell"
+                        <form class="ml-2 d-inline" asp-controller="Car" asp-action="Sell"
                       asp-route-id="@Model.Id" method="post">
                             <input class="btn btn-primary" type="submit" value="Sell" />
                         </form>

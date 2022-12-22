@@ -25,7 +25,7 @@
 
 <div class="mb-5"></div>
 
-<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleControls" class="carousel slide col-8 offset-2" data-bs-ride="carousel">
     <div class="carousel-inner">
         @foreach (var car in Model)
         {
@@ -35,7 +35,7 @@
                  src="@car.ImageUrl" alt="@car.Make">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>
-                        <a class="btn btn-primary" asp-controller="Car" asp-action="Details"
+                        <a class="btn btn-success" asp-controller="Car" asp-action="Details"
                        asp-route-id="@car.Id"> @car.Make</a>
                     </h5>
                 </div>
@@ -56,6 +56,6 @@
 <div class="mb-5"></div>
 <div class="row">
     <div class="col-12 text-center">
-        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+        <button class="btn btn-success" id="statistics-button">Show Statistics</button>
     </div>
 </div>
