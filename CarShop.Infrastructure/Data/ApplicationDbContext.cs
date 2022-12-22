@@ -32,7 +32,8 @@ namespace CarShop.Infrastructure.Data
         public DbSet<Mechanic> Mechanics { get; set; } = null!;
         public DbSet<Garage> Garages { get; set; } = null!;
         public DbSet<Service> Services { get; set; } = null!;
-        
+        public DbSet<ServiceBooking> ServiceBookings { get; set; } = null!;
+
         public DbSet<FuelType> FuelTypes { get; set; } = null!;
         public DbSet<TransmissionType> TransmissionTypes { get; set; } = null!;
 
