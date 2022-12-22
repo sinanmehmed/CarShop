@@ -221,6 +221,13 @@ namespace CarShop.Core.Services
                     Make = c.Make,
                     Category = c.Category.Name,
                     Description = c.Description,
+                    Colour = c.Colour,
+                    RegNumber = c.RegNumber,
+                    Year = c.Year,
+                    EngineSize = c.EngineSize,
+                    HorsePower = c.HorsePower,
+                    Fuel = c.Fuel.Type,
+                    Transmission = c.Transmission.Type,
                     Id = id,
                     ImageUrl = c.ImageUrl,
                     IsBought = c.BuyerId != null,
@@ -249,6 +256,7 @@ namespace CarShop.Core.Services
             car.Model = model.Model;
             car.Description = model.Description;
             car.ImageUrl = model.ImageUrl;
+            car.Year = model.Year;
             car.Price = model.Price;
             car.CategoryId = model.CategoryId;
             car.FuelId = model.FuelId;
@@ -334,6 +342,16 @@ namespace CarShop.Core.Services
             car.BuyerId = null;
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<int> GetCarFuelId(int carId)
+        {
+            return (await repo.GetByIdAsync<Car>(carId)).FuelId;
+        }
+
+        public async Task<int> GetCarTransmissionId(int carId)
+        {
+            return (await repo.GetByIdAsync<Car>(carId)).TransmissionId;
         }
     }
 }

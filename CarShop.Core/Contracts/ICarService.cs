@@ -47,6 +47,9 @@ namespace CarShop.Core.Contracts
         Task<bool> HasDealerWithId(int carId, string currentUserId);
 
         Task<int> GetCarCategoryId(int carId);
+        Task<int> GetCarFuelId(int carId);
+
+        Task<int> GetCarTransmissionId(int carId);
 
         Task Delete(int carId);
 

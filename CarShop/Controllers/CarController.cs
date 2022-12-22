@@ -147,61 +147,73 @@ namespace CarShop.Controllers
 
             var car = await carService.CarDetailsById(id);
             var categoryId = await carService.GetCarCategoryId(id);
+            var fuelId = await carService.GetCarFuelId(id);
+            var transmissionId = await carService.GetCarTransmissionId(id);
+
 
             var model = new CarModel()
             {
                 Id = id,
                 Make = car.Make,
                 Model = car.Model,
+                Colour = car.Colour,
+                RegNumber = car.RegNumber,
+                Year = car.Year,
+                EngineSize = car.EngineSize,
+                HorsePower = car.HorsePower,
+                FuelId = fuelId,
+                TransmissionId = transmissionId,
                 CategoryId = categoryId,
                 Description = car.Description,
                 ImageUrl = car.ImageUrl,
                 Price = car.Price,
-                CarCategories = await carService.AllCategories()
+                CarCategories = await carService.AllCategories(),
+                CarFuels = await carService.AllFuels(),
+                CarTransmissions = await carService.AllTransmissions()
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, CarModel model)
+        public async Task<IActionResult> Edit(int id, CarModel carModel)
         {
-            if (id != model.Id)
+            if (id != carModel.Id)
             {
                 return RedirectToAction("/Account/AccessDenied", new { area = "Identity" });
             }
 
-            if ((await carService.Exists(model.Id)) == false)
+            if ((await carService.Exists(carModel.Id)) == false)
             {
                 ModelState.AddModelError("", "The car does not exist!");
-                model.CarCategories = await carService.AllCategories();
+                carModel.CarCategories = await carService.AllCategories();
 
-                return View(model);
+                return View(carModel);
             }
 
-            if ((await carService.HasDealerWithId(model.Id, User.Id())) == false)
+            if ((await carService.HasDealerWithId(carModel.Id, User.Id())) == false)
             {
                 return RedirectToAction("/Account/AccessDenied", new { area = "Identity" });
             }
 
-            if ((await carService.CategoryExists(model.CategoryId)) == false)
+            if ((await carService.CategoryExists(carModel.CategoryId)) == false)
             {
-                ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist!");
-                model.CarCategories = await carService.AllCategories();
+                ModelState.AddModelError(nameof(carModel.CategoryId), "Category does not exist!");
+                carModel.CarCategories = await carService.AllCategories();
 
-                return View(model);
+                return View(carModel);
             }
 
             if (ModelState.IsValid == false)
             {
-                model.CarCategories = await carService.AllCategories();
+                carModel.CarCategories = await carService.AllCategories();
 
-                return View(model);
+                return View(carModel);
             }
 
-            await carService.Edit(model.Id, model);
+            await carService.Edit(carModel.Id, carModel);
 
-            return RedirectToAction(nameof(Details), new { model.Id });
+            return RedirectToAction(nameof(Details), new { carModel.Id });
         }
 
         [HttpGet]
