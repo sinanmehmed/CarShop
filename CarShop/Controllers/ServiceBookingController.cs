@@ -42,9 +42,6 @@ namespace CarShop.Controllers
             };
             return View(model);
         }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        
     }
 }

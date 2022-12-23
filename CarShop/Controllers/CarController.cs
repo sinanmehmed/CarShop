@@ -269,7 +269,7 @@ namespace CarShop.Controllers
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
-            if (/*!User.IsInRole(AdminRolleName) && */await dealerService.ExistsById(User.Id()))
+            if (await dealerService.ExistsById(User.Id()))
             {
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
